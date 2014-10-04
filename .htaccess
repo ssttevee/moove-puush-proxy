@@ -1,0 +1,5 @@
+#RewriteEngine On
+#RewriteRule ^api/up?$    puush/upload.php    [NC,L]
+#RewriteRule ^api/hist?$    puush/hist.php    [NC,L]
+#RewriteRule ^api/auth?$    puush/auth.php    [NC,L]
+#RewriteRule ^([a-z0-9]+).([a-z0-9]+)?$ puush/get.php?f=$1&x=$2 [NC,L]
