@@ -1,7 +1,9 @@
 Options +FollowSymlinks
 RewriteEngine On
-RewriteRule ^api/up$ upload.php    [L]
-RewriteRule ^api/hist$ hist.php    [L]
-RewriteRule ^api/auth$ auth.php    [L]
+RewriteRule ^api/up$ upload.php [NC,L]
+RewriteRule ^api/hist$ hist.php [NC,L]
+RewriteRule ^api/auth$ auth.php [NC,L]
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([a-z0-9]+)\.([a-z0-9]+)$ get.php?f=$1&x=$2 [L]
-RewriteRule ^(.*)$ 404.txt [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ 404.txt [G]
