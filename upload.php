@@ -45,7 +45,8 @@ if(!empty($_POST)) {
 		$fname = base_convert($id, 10, 36);
 
 		/** Move upload to storage **/
-		move_uploaded_file($_FILES["f"]["tmp_name"], DIR_STORAGE . $fname . ".blob");
+		move_uploaded_file($_FILES["f"]["tmp_name"], DIR_STORAGE);
+		rename(DIR_STORAGE . $_FILES["f"]["name"], DIR_STORAGE . $fname . ".blob");
 
 		/** Encrypt Uploaded File **/
 		$cipher = new Cipher($textKey);
