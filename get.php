@@ -1,13 +1,11 @@
 <?php
 include "config.php";
+require "cipher.php";
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-
-if(isset($_GET["f"])) {
+if(isset($_GET["f"]) && isset($_GET["k"]) && isset($_GET["x"])) {
 	header('Content-type: ' . get_mime_type($_GET["x"]));
-	echo file_get_contents(DIR_STORAGE . $_GET["f"] . ".blob");
+	$cipher = new Cipher($_GET["k"]);
+	echo $cipher->decrypt(file_get_contents(DIR_STORAGE . $_GET["f"] . ".blob"));
 }
 
 function get_mime_type($extension) {

@@ -26,6 +26,7 @@ try {
 	            name TEXT,
 	            ext TEXT,
 	            size INTEGER,
+	            key INTEGER,
 	            owner INTEGER,
 	            time INTEGER)");
 

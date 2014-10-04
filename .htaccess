@@ -4,6 +4,6 @@ RewriteRule ^api/up$ upload.php [NC,L]
 RewriteRule ^api/hist$ hist.php [NC,L]
 RewriteRule ^api/auth$ auth.php [NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^([a-z0-9]+)\.([a-z0-9]+)$ get.php?f=$1&x=$2 [L]
+RewriteRule ^([a-z0-9]+)/([a-z0-9]+)\.([a-z0-9]+)$ get.php?f=$2&x=$3&k=$1 [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ 404.txt [G]

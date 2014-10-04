@@ -23,7 +23,7 @@ if(!empty($_POST)) {
 		else die("bad result");
 
 		/** Prepare and execute SQL statement **/
-		$sth = $file_db->prepare("SELECT id,name,ext,time FROM files where owner == ? order by time desc limit 10");
+		$sth = $file_db->prepare("SELECT id,name,key,ext,time FROM files where owner == ? order by time desc limit 10");
 		$sth->execute(array($owner));
 
 		/** Print blank entry */
@@ -33,7 +33,7 @@ if(!empty($_POST)) {
 		foreach($sth->fetchAll() as $row) {
 			echo $row["id"] . ",";
 			echo date("Y-m-d H:i:s", $row["time"]) . ",";
-			echo "http://psh.ssttevee.com/" . base_convert($row["id"],10,36) . "." . $row["ext"] . ",";
+			echo ROOT_URL . $row["key"] . "/" . base_convert($row["id"],10,36) . "." . $row["ext"] . ",";
 			echo $row["name"] . ",0,0\n";
 		}
 
