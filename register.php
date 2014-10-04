@@ -1,4 +1,5 @@
 <?php
+include "config.php";
 
 // Set default timezone
 date_default_timezone_set('America/Vancouver');
@@ -12,7 +13,7 @@ if(!empty($_POST)) {
 		die("no invitation");
 	try {
 		/** Connect to SQLite database **/
-		$file_db = new PDO('sqlite:puush.sqlite3');
+		$file_db = new PDO(PDO_DATABASE_CONNECT);
 
 		/** Check for existing user **/
 		$sth = $file_db->prepare("select count(*) from users where email == ?");

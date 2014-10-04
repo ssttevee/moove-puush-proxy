@@ -1,4 +1,5 @@
 <?php
+include "config.php";
 
 // Set default timezone
 date_default_timezone_set('America/Vancouver');
@@ -8,7 +9,7 @@ if(!empty($_POST)) {
 
 	try {
 		/** Connect to SQLite database **/
-		$file_db = new PDO('sqlite:puush.sqlite3');
+		$file_db = new PDO(PDO_DATABASE_CONNECT);
 
 		/** Prepare and execute SQL statement **/
 		$sth = $file_db->prepare("SELECT id FROM users where apikey == ?");

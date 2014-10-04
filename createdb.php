@@ -1,4 +1,5 @@
 <?php
+include "config.php";
 
 // Set default timezone
 date_default_timezone_set('America/Vancouver');
@@ -10,7 +11,7 @@ try {
 	**************************************/
 
 	// Create (connect to) SQLite database in file
-	$file_db = new PDO('sqlite:puush.sqlite3');
+	$file_db = new PDO(PDO_DATABASE_CONNECT);
 
 
 	/**************************************

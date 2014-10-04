@@ -1,4 +1,5 @@
 <?php
+include "config.php";
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -6,7 +7,7 @@ ini_set('display_errors', 1);
 
 if(isset($_GET["f"])) {
 	header('Content-type: ' . get_mime_type($_GET["x"]));
-	echo file_get_contents("storage/" . $_GET["f"] . ".blob");
+	echo file_get_contents(DIR_STORAGE . $_GET["f"] . ".blob");
 }
 
 function get_mime_type($extension) {
