@@ -14,7 +14,7 @@ if(!empty($_POST)) {
 		$file_db = new PDO(PDO_DATABASE_CONNECT);
 
 		/** Prepare and execute SQL statement **/
-		$sth = $file_db->prepare("SELECT id FROM users where apikey == ?");
+		$sth = $file_db->prepare("SELECT id FROM users where apikey = ?");
 		$sth->execute(array($_POST["k"]));
 
 		/** Get first result **/
