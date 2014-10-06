@@ -1,6 +1,6 @@
 <?php
 include "config.php";
-require "cipher.php";
+require "../lib/cipher.php";
 
 if(isset($_GET["f"]) && isset($_GET["k"]) && isset($_GET["x"])) {
 	header('Content-type: ' . get_mime_type($_GET["x"]));

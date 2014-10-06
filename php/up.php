@@ -1,6 +1,6 @@
 <?php
 include "config.php";
-require "cipher.php";
+require "../lib/cipher.php";
 
 // Set default timezone
 date_default_timezone_set('America/Vancouver');

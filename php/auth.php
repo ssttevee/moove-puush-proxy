@@ -13,7 +13,7 @@ if(!empty($_POST)) {
 		$file_db = new PDO(PDO_DATABASE_CONNECT);
 
 		/** Generate SQL statement **/
-		$sql = "select apikey from users where email == ? and ";
+		$sql = "select apikey from users where email = ? and ";
 
 		if(isset($_POST["p"])) $sql .= "password == ?";
 		else if(isset($_POST["k"])) $sql .= "apikey == ?";
