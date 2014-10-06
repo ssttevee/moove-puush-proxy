@@ -57,7 +57,8 @@ if(!empty($_POST)) {
 		/** close the database connection **/
 		$file_db = null;
 
-		echo "0," . $apiKey . ",0,0";
+		echo "0," . $apiKey . ",0,0\n";
+        echo "registration complete";
 	} catch (PDOException $e) {
 		echo $e->getMessage();
 	}
