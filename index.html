@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery.cookie.min.js"></script>
+    <script>
+        function preview(row) {
+            var $row = $("li:nth-child(" + (row + 1) + ")");
+            if($row.find("img").length > 0) {
+                $row.find("img").remove();
+            } else {
+                var prev = $row.text();
+                $row.append("<img src='" + prev.replace("http://mv.ssttevee.com/", "thumb/") + "'/>");
+            }
+        }
+
+        function logout() {
+            $.cookie("k", null, { path: '/', expires: -1 });
+            location.reload();
+        }
+
+        function login() {
+            $.ajax({
+                url: "api/auth",
+                type: "post",
+                data: {
+                    e: $("input[name=e]").val(),
+                    p: $("input[name=p]").val(),
+                    z: "poop"
+                }
+            }).done(function( data ) {
+                console.log(data);
+                if(data.indexOf("no") >= 0 || data.indexOf("bad") >= 0) {
+                    alert("login failed");
+                } else {
+                    data = data.split(",");
+                    $.cookie("k", data[1], { path: '/', expires: Date.now() + 60*60*24*30 });
+                    location.reload();
+                }
+            });
+        }
+
+        function loadData() {
+            if($.cookie("k")) {
+                $.ajax({
+                    url: "api/hist",
+                    type: "post",
+                    data: {
+                        k: $.cookie("k")
+                    }
+                }).done(function( data ) {
+                    data = data.split("\n");
+
+                    var $list = $("<ul></ul>");
+
+                    $("body").html($list);
+                    $list.append("<li>Uploads:<a href='javascript:logout();'>logout</a><a href='javascript:prompt(\"Your API Key\", $.cookie(\"k\"));'>apikey</a></li>");
+
+                    for(var i = 1; i < data.length - 1; i++) {
+                        var info = data[i].split(",");
+                        $list.append("<li onclick='javascript:preview(" + i + ")'>" + info[2] + "<a href='javascript:delete(" + info[0] + ");return false;' class='delete'></a><br></li>");
+                    }
+                });
+            }
+        }
+
+        $(function() {
+            loadData();
+        });
+    </script>
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        li {
+            padding: 5px 10px;
+        }
+        li:nth-child(even) {
+            background-color: #eee;
+        }
+        a.delete:after {
+            content: "delete";
+        }
+        a {
+            float: right;
+            padding-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    Login: <br/>
+    <form onsubmit="login();return false;">
+        Email: <input type="text" name="e" /><br/>
+        Password: <input type="password" name="p" /><br/>
+        <input type="submit" />
+    </form>
+</body>
+</html>
