@@ -5,6 +5,7 @@ RewriteRule ^api/up$ php/up.php [L]
 RewriteRule ^api/auth$ php/auth.php [L]
 RewriteRule ^api/hist$ php/hist.php [L]
 RewriteRule ^api/thumb$ php/thumb.php [L]
+RewriteRule ^api/del$ php/del.php [L]
 
 RewriteRule ^register php/register.php [L]
 
