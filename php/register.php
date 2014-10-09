@@ -13,10 +13,10 @@ if(!empty($_POST)) {
 		die("no invitation");
 	try {
 		/** Connect to SQLite database **/
-		$file_db = new PDO(PDO_DATABASE_CONNECT);
+		$moove = new Moove(PDO_DATA_SOURCE_NAME);
 
 		/** Check for existing user **/
-		$sth = $file_db->prepare("select password,id from users where email == ?");
+		$sth = $moove->pdo->prepare("select password,id from users where email == ?");
 		$sth->execute(array($_POST["e"]));
 		$res = $sth->fetchAll();
 
@@ -27,39 +27,40 @@ if(!empty($_POST)) {
 				$inviteKey = "";
 				for ($i = 0; $i < 16; $i++)
 					$inviteKey .= $index[mt_rand(0, count($index) - 1)];
-				$res = $file_db->exec("insert into invites(code, time) VALUES (" . $file_db->quote($inviteKey) . ", " . $file_db->quote(0) . ")");
-				die($inviteKey);
+
+                $sth = $moove->pdo->prepare("insert into invites(code, time) values (?, ?)");
+                $sth->execute(array($inviteKey, 0));
+
+				throw new Exception($inviteKey);
 			} else {
-				die("unauthorized");
+				throw new Exception("Unauthorized");
 			}
 		} else if (count($res) > 0) {
-			$file_db = null;
-			die("user exists");
+            throw new Exception("User Already Exists");
 		}
 
 		/** Check for valid invite **/
-		$res = $file_db->query("select id from invites where code = " . $file_db->quote($_POST["i"]) . " and time = " . $file_db->quote(0))->fetchAll();
+		$sth = $moove->pdo->prepare("select id from invites where code = ? and time = ?");
+        $sth->execute(array($_POST["i"], 0));
+        $res = $sth->fetchAll();
 
 		if (count($res) < 1) {
-			$file_db = null;
-			die("invalid invitation");
+            throw new Exception("Invalid Invitation Code");
 		}
 
 		/** Use invitation code **/
-		$res = $file_db->exec("update invites set time = " . $file_db->quote(time()) . " where code = " . $file_db->quote($_POST["i"]));
+        $sth = $moove->pdo->prepare("update invites set time = ? where code = ? and time = ?");
+        $sth->execute(array(time(), $_POST["i"], 0));
 
 		/** Generate new API Key **/
 		$apiKey = strtoupper(hash("md5", time() . mt_rand() . $_SERVER['REMOTE_ADDR']));
 
 		/** INSERT new user **/
-		$res = $file_db->exec("insert into users(email, password, apikey) VALUES (" . $file_db->quote($_POST["e"]) . ", " . $file_db->quote(hash("sha256", $_POST["p"])) . ", " . $file_db->quote($apiKey) . ")");
+        $sth = $moove->pdo->prepare("insert into users(email, password, apikey) values (?, ?, ?)");
+        $sth->execute(array($_POST["e"], hash("sha256", $_POST["p"]), $apiKey));
 
-		/** close the database connection **/
-		$file_db = null;
-
-		echo "0," . $apiKey . ",0,0\n";
-        echo "registration complete";
-	} catch (PDOException $e) {
+        echo "Registration Complete";
+	} catch (Exception $e) {
 		echo $e->getMessage();
 	}
 } else {

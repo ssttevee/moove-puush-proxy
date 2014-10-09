@@ -11,7 +11,7 @@ try {
 	**************************************/
 
 	// Create (connect to) SQLite database in file
-	$file_db = new PDO(PDO_DATABASE_CONNECT);
+	$file_db = new PDO(PDO_DATA_SOURCE_NAME);
 
 
 	/**************************************

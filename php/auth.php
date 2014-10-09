@@ -1,5 +1,6 @@
 <?php
 include "config.php";
+require "../lib/Moove.php";
 
 // Set default timezone
 date_default_timezone_set('America/Vancouver');
@@ -10,29 +11,13 @@ if(!empty($_POST)) {
 
 	try {
 		/** Connect to SQLite database **/
-		$file_db = new PDO(PDO_DATABASE_CONNECT);
+		$moove = new Moove(PDO_DATA_SOURCE_NAME);
 
-		/** Generate SQL statement **/
-		$sql = "select apikey from users where email = ? and ";
-
-		if(isset($_POST["p"])) $sql .= "password == ?";
-		else if(isset($_POST["k"])) $sql .= "apikey == ?";
+		/** Authenticate **/
+		if(isset($_POST["p"])) echo $moove->authenticateByPassword($_POST["e"], $_POST["p"]);
+		else if(isset($_POST["k"])) echo $moove->authenticateByApiKey($_POST["e"], $_POST["k"]);
 		else die("no auth");
-
-		/** Prepare and execute SQL statement **/
-		$sth = $file_db->prepare($sql);
-		$sth->execute(array($_POST["e"], (isset($_POST["p"]) ? hash("sha256", $_POST["p"]) : $_POST["k"])));
-
-		/** Get first result **/
-		$res = $sth->fetch();
-
-		/** Return the API key **/
-		if(isset($res["apikey"])) echo "0," . $res["apikey"] . ",,0";
-		else echo "bad result";
-
-		/** close the database connection **/
-		$file_db = null;
-	} catch(PDOException $e) {
+	} catch(Exception $e) {
 		echo $e->getMessage();
 	}
 } else {
