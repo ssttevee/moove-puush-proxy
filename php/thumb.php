@@ -42,7 +42,7 @@ if(!empty($_POST)) {
         header("Content-type: image/png");
 
         $cipher = new Cipher($res[0]["key"]);
-        if(file_exists(DIR_THUMB_CACHE . $name)) {
+        if(file_exists(DIR_THUMB_CACHE . $name . ".100x100.blob")) {
             echo $cipher->decrypt(file_get_contents(DIR_THUMB_CACHE . $name . ".100x100.blob"));
         } else {
             $image = createThumb($cipher->decrypt(file_get_contents(DIR_STORAGE . $name . ".blob")), 100, 100);
