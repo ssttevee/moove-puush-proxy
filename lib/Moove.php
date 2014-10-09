@@ -80,6 +80,7 @@ class Moove {
     function upgradeDatabase() {
         $sth = $this->pdo->prepare("alter table files add column hits int default ?");
         $sth->execute(array(0));
+        $this->setDatabaseVersion(2);
     }
 
     function getDatabaseVersion() {
