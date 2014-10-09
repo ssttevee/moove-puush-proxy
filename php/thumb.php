@@ -1,6 +1,7 @@
 <?php
 include "config.php";
 require "../lib/cipher.php";
+require "../lib/Moove.php";
 
 // Set default timezone
 date_default_timezone_set('America/Vancouver');
