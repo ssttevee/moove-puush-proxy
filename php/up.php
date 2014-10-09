@@ -1,6 +1,7 @@
 <?php
 include "config.php";
 require "../lib/cipher.php";
+require "../lib/Moove.php";
 
 // Set default timezone
 date_default_timezone_set('America/Vancouver');
@@ -11,18 +12,10 @@ if(!empty($_POST)) {
 
 	try {
 		/** Connect to SQLite database **/
-		$file_db = new PDO(PDO_DATABASE_CONNECT);
+		$moove = new Moove(PDO_DATA_SOURCE_NAME);
 
 		/** Prepare and execute SQL statement **/
-		$sth = $file_db->prepare("SELECT id FROM users where apikey = ?");
-		$sth->execute(array($_POST["k"]));
-
-		/** Get first result **/
-		$res = $sth->fetch(PDO::FETCH_ASSOC);
-
-		/** Store the user's id **/
-		if(isset($res["id"])) $owner = $res["id"];
-		else die("bad result");
+		$owner = $moove->getUserIdByApiKey($_POST["k"]);
 
 		/** Generate encryption key */
 		$index = str_split("0123456789abcdefghijklmnopqrstuvwxyz");
@@ -35,11 +28,11 @@ if(!empty($_POST)) {
 		$ext = $ext[count($ext) - 1];
 
 		/** Insert file data into the db **/
-		$sth = $file_db->prepare("insert into files(name,ext,size,key,owner,time) values(?,?,?,?,?,?)");
+		$sth = $moove->pdo->prepare("insert into files(name,ext,size,key,owner,time) values(?,?,?,?,?,?)");
 		$sth->execute(array($_FILES["f"]["name"], $ext, filesize($_FILES["f"]["tmp_name"]), $textKey, $owner, time()));
 
 		/** Get inserted id **/
-		$id = $file_db->lastInsertId();
+		$id = $moove->pdo->lastInsertId();
 
 		/** Transform id into file name */
 		$fname = base_convert($id, 10, 36);
@@ -55,9 +48,6 @@ if(!empty($_POST)) {
 
 		/** Return string for puush client **/
 		echo "0," . ROOT_URL . $textKey . "/" . $fname . "." . $ext . "," . $id . ",0";
-
-		/** close the database connection **/
-		$file_db = null;
 	} catch(PDOException $e) {
 		echo $e->getMessage();
 	}

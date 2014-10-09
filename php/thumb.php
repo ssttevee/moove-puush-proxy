@@ -15,18 +15,10 @@ if(!empty($_POST)) {
 
     try {
         /** Connect to SQLite database **/
-        $file_db = new PDO(PDO_DATABASE_CONNECT);
+        $moove = new Moove(PDO_DATA_SOURCE_NAME);
 
         /** Prepare and execute SQL statement **/
-        $sth = $file_db->prepare("SELECT id FROM users where apikey = ?");
-        $sth->execute(array($_POST["k"]));
-
-        /** Get first result **/
-        $res = $sth->fetch(PDO::FETCH_ASSOC);
-
-        /** Store the user's id **/
-        if(isset($res["id"])) $owner = $res["id"];
-        else die("bad result");
+        $owner = $moove->getUserIdByApiKey($_POST["k"]);
 
         /** Prepare and execute SQL statement **/
         $sth = $file_db->prepare("SELECT key FROM files where owner = ? and id = ? limit 1");
@@ -52,9 +44,6 @@ if(!empty($_POST)) {
 
             echo $image;
         }
-
-        /** close the database connection **/
-        $file_db = null;
     } catch(PDOException $e) {
         echo $e->getMessage();
     }
