@@ -18,8 +18,6 @@ try {
 	* Create tables                       *
 	**************************************/
 
-	$file_db->exec("DROP IF EXISTS files");
-
 	// Create table files
 	$file_db->exec("CREATE TABLE IF NOT EXISTS files (
 	            id INTEGER PRIMARY KEY,
@@ -28,7 +26,8 @@ try {
 	            size INTEGER,
 	            key INTEGER,
 	            owner INTEGER,
-	            time INTEGER)");
+	            time INTEGER,
+	            hits INTEGER)");
 
 	// Create table users
 	$file_db->exec("CREATE TABLE IF NOT EXISTS users (
@@ -45,13 +44,11 @@ try {
 
 
 	/**************************************
-	* Close db connections                *
+	* Close db connection                 *
 	**************************************/
 
 	// Close file db connection
 	$file_db = null;
-	// Close memory db connection
-	$memory_db = null;
 }
 catch(PDOException $e) {
 	// Print PDOException message
