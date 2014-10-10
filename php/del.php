@@ -28,16 +28,14 @@ if(!empty($_POST)) {
             die("not found");
         }
 
-        $name = base_convert($res[0]["id"], 10, 36);
+        $name = base_convert($_POST["i"], 10, 36);
 
         /** Delete the file and the thumbnail **/
         if(file_exists(DIR_STORAGE . $name . ".blob")) {
-            file_put_contents(DIR_STORAGE . $name . ".blob", null);
-            unlink(DIR_STORAGE . $name . ".blob");
+            exec("rm -f " . DIR_STORAGE . $name . ".blob");
         }
         if(file_exists(DIR_THUMB_CACHE . $name . ".100x100.blob")) {
-            file_put_contents(DIR_THUMB_CACHE . $name . ".100x100.blob", null);
-            unlink(DIR_THUMB_CACHE . $name . ".100x100.blob");
+            exec("rm -f " . DIR_THUMB_CACHE . $name . ".100x100.blob");
         }
 
         /** Delete row from db **/
