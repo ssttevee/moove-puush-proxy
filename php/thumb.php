@@ -22,7 +22,7 @@ if(!empty($_POST)) {
         $owner = $moove->getUserIdByApiKey($_POST["k"]);
 
         /** Prepare and execute SQL statement **/
-        $sth = $file_db->prepare("SELECT key FROM files where owner = ? and id = ? limit 1");
+        $sth = $moove->pdo->prepare("SELECT key FROM files where owner = ? and id = ? limit 1");
         $sth->execute(array($owner, $_POST["i"]));
 
         /** Get all results **/
