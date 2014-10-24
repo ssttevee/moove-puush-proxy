@@ -58,8 +58,8 @@ class Moove {
         $history = "";
 
         /** Prepare and execute SQL statement **/
-        $sth = $this->pdo->prepare("SELECT id,name,key,ext,time,hits FROM files where owner = ? order by time desc limit ?");
-        $sth->execute(array($user_id, $limit));
+        $sth = $this->pdo->prepare("SELECT id,name,key,ext,time,hits FROM files where owner = ? order by time desc" . ($limit > 0 ? " limit " . $limit : ""));
+        $sth->execute(array($user_id));
 
         /** Print blank entry */
         $history .= "0\n";

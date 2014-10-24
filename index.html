@@ -48,7 +48,8 @@
                     url: "api/hist",
                     type: "post",
                     data: {
-                        k: $.cookie("k")
+                        k: $.cookie("k"),
+                        limit: 0
                     }
                 }).done(function( data ) {
                     data = data.split("\n");
