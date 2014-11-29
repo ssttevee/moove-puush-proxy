@@ -21,6 +21,20 @@
             location.reload();
         }
 
+        var parseData = function(data) {
+            data = data.split("\n");
+
+            var $list = $("<ul></ul>");
+
+            $("body").html($list);
+            $list.append("<li>Uploads:<a href='javascript:logout();'>logout</a><a href='javascript:prompt(\"Your API Key\", $.cookie(\"k\"));'>apikey</a></li>");
+
+            for(var i = 1; i < data.length - 1; i++) {
+                var info = data[i].split(",");
+                $list.append("<li><a href=\"" + info[2] + "\" onclick=\"javascript:preview(" + i + "); return false;\" class=\"left\">" + info[2] + "</a><a href='javascript:deleteFile(" + info[0] + ");return false;' class='delete'></a><br></li>");
+            }
+        };
+
         function login() {
             $.ajax({
                 url: "api/auth",
@@ -42,6 +56,17 @@
             });
         }
 
+        function deleteFile(imageId) {
+            $.ajax({
+                url: "api/del",
+                type: "post",
+                data: {
+                    k: $.cookie("k"),
+                    i: imageId
+                }
+            }).done(parseData);
+        }
+
         function loadData() {
             if($.cookie("k")) {
                 $.ajax({
@@ -51,19 +76,7 @@
                         k: $.cookie("k"),
                         limit: 0
                     }
-                }).done(function( data ) {
-                    data = data.split("\n");
-
-                    var $list = $("<ul></ul>");
-
-                    $("body").html($list);
-                    $list.append("<li>Uploads:<a href='javascript:logout();'>logout</a><a href='javascript:prompt(\"Your API Key\", $.cookie(\"k\"));'>apikey</a></li>");
-
-                    for(var i = 1; i < data.length - 1; i++) {
-                        var info = data[i].split(",");
-                        $list.append("<li onclick='javascript:preview(" + i + ")'>" + info[2] + "<a href='javascript:delete(" + info[0] + ");return false;' class='delete'></a><br></li>");
-                    }
-                });
+                }).done(parseData);
             }
         }
 
