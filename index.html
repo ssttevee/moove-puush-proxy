@@ -8,11 +8,13 @@
     <script>
         function preview(row) {
             var $row = $("li:nth-child(" + (row + 1) + ")");
-            if($row.find("img").length > 0) {
+            if($row.hasClass("open")) {
                 $row.find("img").remove();
+                $row.removeClass("open");
             } else {
                 var prev = $row.text();
                 $row.append("<img src='" + prev.replace("http://mv.ssttevee.com/", "thumb/") + "'/>");
+                $row.addClass("open");
             }
         }
 
@@ -90,8 +92,14 @@
             margin: 0;
             padding: 0;
         }
-        li {
-            padding: 5px 10px;
+        li:not(:first-child) {
+            padding: 5px 10px 5px 20px;
+            background-repeat: no-repeat;
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJAQMAAADaX5RTAAAABGdBTUEAALGPC/xhBQAAAAZQTFRFAAAAcnJyURAOlQAAAAF0Uk5TAEDm2GYAAAAYSURBVAjXY6hnYGhoYOgAo30wBlCkngEAcaMIXb/SfJ8AAAAASUVORK5CYII=);
+            background-position: 6px center;
+        }
+        li.open {
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJAQMAAADaX5RTAAAABGdBTUEAALGPC/xhBQAAAAZQTFRFAAAAcnJyURAOlQAAAAF0Uk5TAEDm2GYAAAAVSURBVAjXY6hnYGhogKJ9DQh2PQMAb+MIPQm7FX4AAAAASUVORK5CYII=);
         }
         li:nth-child(even) {
             background-color: #eee;
@@ -102,6 +110,9 @@
         a {
             float: right;
             padding-left: 10px;
+        }
+        a.left {
+            float: left;
         }
     </style>
 </head>
