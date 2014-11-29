@@ -8,6 +8,7 @@ date_default_timezone_set('America/Vancouver');
 if(!empty($_POST)) {
     if (!isset($_POST["k"])) die("no key");
     if (!isset($_POST["i"])) die("no image");
+    if(!isset($_POST["limit"])) $_POST["limit"] = 10;
 
     $name = base_convert($_POST["i"], 10, 36);
 
@@ -42,7 +43,7 @@ if(!empty($_POST)) {
         $sth = $moove->pdo->prepare("delete from files where owner = ? and id = ? and key = ?");
         $sth->execute(array($owner, $_POST["i"], $res[0]["key"]));
 
-        echo $moove->getUserHistory($owner, 10);
+        echo $moove->getUserHistory($owner, intval($_POST["limit"]));
 
         /** close the database connection **/
         $file_db = null;
