@@ -33,7 +33,7 @@
 
             for(var i = 1; i < data.length - 1; i++) {
                 var info = data[i].split(",");
-                $list.append("<li><a href=\"" + info[2] + "\" onclick=\"javascript:preview(" + i + "); return false;\" class=\"left\">" + info[2] + "</a><a href='javascript:deleteFile(" + info[0] + ");return false;' class='delete'></a><br></li>");
+                $list.append("<li><a href=\"" + info[2] + "\" onclick=\"javascript:preview(" + i + "); return false;\" class=\"left\">" + info[2] + "</a><a href='javascript:deleteFile(" + info[0] + ");' class='delete'></a><br></li>");
             }
         };
 
