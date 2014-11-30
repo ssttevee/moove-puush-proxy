@@ -77,6 +77,11 @@ class Moove {
         return $history;
     }
 
+    function countHit($file_id) {
+        $sth = $this->pdo->prepare("UPDATE files SET hits = hits + 1 WHERE id = ?");
+        $sth->execute(array($file_id));
+    }
+
     function upgradeDatabase() {
         $sth = $this->pdo->prepare("alter table files add column hits integer default ?");
         $sth->execute(array(0));

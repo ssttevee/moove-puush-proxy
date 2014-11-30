@@ -4,9 +4,17 @@ require "../lib/cipher.php";
 
 if(isset($_GET["f"]) && isset($_GET["k"]) && isset($_GET["x"])) {
     if(file_exists(DIR_STORAGE . $_GET["f"] . ".blob")) {
-        header('Content-type: ' . get_mime_type($_GET["x"]));
-        $cipher = new Cipher($_GET["k"]);
-        echo $cipher->decrypt(file_get_contents(DIR_STORAGE . $_GET["f"] . ".blob"));
+        try {
+            $moove = new Moove(PDO_DATA_SOURCE_NAME);
+            $moove->countHit(base_convert($_GET["f"], 36, 10));
+
+            header('Content-type: ' . get_mime_type($_GET["x"]));
+
+            $cipher = new Cipher($_GET["k"]);
+            echo $cipher->decrypt(file_get_contents(DIR_STORAGE . $_GET["f"] . ".blob"));
+        } catch(Exception $e) {
+            echo $e->getMessage();
+        }
     } else {
         header($_SERVER['SERVER_PROTOCOL'] . ' 404 File not found', true, 404);
     }
