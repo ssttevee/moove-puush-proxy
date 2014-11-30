@@ -60,7 +60,8 @@ if(!empty($_POST)) {
         $sth = $moove->pdo->prepare("insert into users(email, password, apikey) values (?, ?, ?)");
         $sth->execute(array($_POST["e"], hash("sha256", $_POST["p"]), $apiKey));
 
-        echo "Registration Complete";
+        echo "Registration Complete\n";
+        echo "<a href=\"https://github.com/ssttevee/moove-puush-proxy#client\">Client Setup Instructions</a>";
 	} catch (Exception $e) {
 		echo $e->getMessage();
 	}
