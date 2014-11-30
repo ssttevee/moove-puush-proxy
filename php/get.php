@@ -6,10 +6,20 @@ require "../lib/Moove.php";
 if(isset($_GET["f"]) && isset($_GET["k"]) && isset($_GET["x"])) {
     if(file_exists(DIR_STORAGE . $_GET["f"] . ".blob")) {
         try {
+            $file_id = base_convert($_GET["f"], 36, 10);
+
             $moove = new Moove(PDO_DATA_SOURCE_NAME);
-            $moove->countHit(base_convert($_GET["f"], 36, 10));
+            $moove->countHit($file_id);
+            $file = $moove->getFileById($file_id, $_GET["k"]);
+
+            if(!$file) {
+                header('HTTP/1.0 401 Unauthorized');
+                die();
+            }
 
             header('Content-type: ' . get_mime_type($_GET["x"]));
+            header('Content-Length: ' . $file["size"]);
+            header('Content-Disposition: attachment; filename="' . $file["name"] . '"');
 
             $cipher = new Cipher($_GET["k"]);
             echo $cipher->decrypt(file_get_contents(DIR_STORAGE . $_GET["f"] . ".blob"));

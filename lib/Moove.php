@@ -77,6 +77,13 @@ class Moove {
         return $history;
     }
 
+    function getFileById($file_id, $key) {
+        $sth = $this->pdo->prepare("SELECT name,ext,size,owner,time,hits FROM files WHERE id = ?, key = ?");
+        $sth->execute(array($file_id, $key));
+        if($sth->rowCount() == 0) return false;
+        return $sth->fetch(PDO::FETCH_ASSOC);
+    }
+
     function countHit($file_id) {
         $sth = $this->pdo->prepare("UPDATE files SET hits = hits + 1 WHERE id = ?");
         $sth->execute(array($file_id));
