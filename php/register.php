@@ -66,10 +66,12 @@ if(!empty($_POST)) {
 	}
 } else {
 ?>
-<form method="post">
-	Email: <input type="text" name="e" /><br/>
-	Password: <input type="password" name="p" /><br/>
-	Invite Code: <input type="text" name="i" onload="this.value = window.location.hash.substr(1);" /><br/>
-	<input type="submit" />
-</form>
+<body onload="document.getElementById('invite').value = window.location.hash.substr(1);">
+    <form method="post">
+        Email: <input type="text" name="e" /><br/>
+        Password: <input type="password" name="p" /><br/>
+        Invite Code: <input type="text" name="i" id="invite" /><br/>
+        <input type="submit" />
+    </form>
+</body>
 <?php }
