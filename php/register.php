@@ -69,7 +69,7 @@ if(!empty($_POST)) {
 <form method="post">
 	Email: <input type="text" name="e" /><br/>
 	Password: <input type="password" name="p" /><br/>
-	Invite Code: <input type="text" name="i" /><br/>
+	Invite Code: <input type="text" name="i" onload="this.value = window.location.hash.substr(1);" /><br/>
 	<input type="submit" />
 </form>
 <?php }
