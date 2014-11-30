@@ -19,7 +19,7 @@ if(isset($_GET["f"]) && isset($_GET["k"]) && isset($_GET["x"])) {
 
             header('Content-type: ' . get_mime_type($_GET["x"]));
             header('Content-Length: ' . $file["size"]);
-            header('Content-Disposition: attachment; filename="' . $file["name"] . '"');
+            header('Content-Disposition: filename="' . $file["name"] . '"');
 
             $cipher = new Cipher($_GET["k"]);
             echo $cipher->decrypt(file_get_contents(DIR_STORAGE . $_GET["f"] . ".blob"));
