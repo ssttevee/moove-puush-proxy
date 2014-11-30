@@ -1,6 +1,7 @@
 <?php
 include "config.php";
 require "../lib/cipher.php";
+require "../lib/Moove.php";
 
 if(isset($_GET["f"]) && isset($_GET["k"]) && isset($_GET["x"])) {
     if(file_exists(DIR_STORAGE . $_GET["f"] . ".blob")) {
