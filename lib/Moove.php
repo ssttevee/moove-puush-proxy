@@ -78,7 +78,7 @@ class Moove {
     }
 
     function getFileById($file_id, $key) {
-        $sth = $this->pdo->prepare("SELECT name,ext,size,owner,time,hits FROM files WHERE id = ?, key = ?");
+        $sth = $this->pdo->prepare("SELECT name,ext,size,owner,time,hits FROM files WHERE id = ? AND key = ?");
         $sth->execute(array($file_id, $key));
         if($sth->rowCount() == 0) return false;
         return $sth->fetch(PDO::FETCH_ASSOC);
