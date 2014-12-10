@@ -38,7 +38,7 @@ class Moove {
 
     function authenticateByPassword($email, $password) {
         $sth = $this->pdo->prepare("select apikey from users where email = ? and password = ?");
-        $sth->execute(array($email, $password));
+        $sth->execute(array($email, hash("sha256", $password)));
         return $this->authenticate($sth);
     }
 
