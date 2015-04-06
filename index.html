@@ -33,7 +33,18 @@
 
             for(var i = 1; i < data.length - 1; i++) {
                 var info = data[i].split(",");
-                $list.append("<li><a href=\"" + info[2] + "\" onclick=\"javascript:preview(" + i + "); return false;\" class=\"left\">" + info[2] + "</a><a href='javascript:deleteFile(" + info[0] + ");' class='delete'></a><br></li>");
+                $elem = $("<li><a href=\"" + info[2] + "\" style=\"background-image: url(" + info[2].replace("http://mv.ssttevee.com/", "thumb/") + ");\" onclick=\"return false;\">" + "</a></li>");
+                $elem.data("imageId", info[0]);
+                $elem.hover(
+                        function() {
+                            console.log($(this));
+                            $(this).append("<a href=\"#\" class=\"delete\" onclick=\"deleteFile(" + $(this).data("imageId") + ");return false;\"></a>");
+                        },
+                        function() {
+                            $(this).find("a.delete").remove();
+                        }
+                );
+                $list.append($elem);
             }
         };
 
@@ -88,35 +99,46 @@
         });
     </script>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         ul {
             list-style-type: none;
-            margin: 0;
+            margin: 0 auto;
             padding: 0;
-        }
-        li {
-            padding: 5px 10px;
+            max-width: 1200px;
+            width: 80%;
         }
         li:not(:first-child) {
-            padding: 5px 10px 5px 17px;
+            float: left;
+            width: 110px;
+            height: 110px;
+            -webkit-box-shadow: 0 0 2px 0 rgba(50, 50, 50, 0.75);
+            -moz-box-shadow:    0 0 2px 0 rgba(50, 50, 50, 0.75);
+            box-shadow:         0 0 2px 0 rgba(50, 50, 50, 0.75);
+            margin: 5px;
+            position: relative;
+        }
+        li:not(:first-child) a:first-child {
             background-repeat: no-repeat;
-            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJAQMAAADaX5RTAAAABGdBTUEAALGPC/xhBQAAAAZQTFRFAAAAcnJyURAOlQAAAAF0Uk5TAEDm2GYAAAAYSURBVAjXY6hnYGhoYOgAo30wBlCkngEAcaMIXb/SfJ8AAAAASUVORK5CYII=);
-            background-position: 10px 10px;
+            background-position: center;
+            background-size: cover;
+            display: block;
+            width: 110px;
+            height: 110px;
         }
-        li.open {
-            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJAQMAAADaX5RTAAAABGdBTUEAALGPC/xhBQAAAAZQTFRFAAAAcnJyURAOlQAAAAF0Uk5TAEDm2GYAAAAVSURBVAjXY6hnYGhogKJ9DQh2PQMAb+MIPQm7FX4AAAAASUVORK5CYII=);
+        li a.delete {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: rgba(0,0,0,0);
         }
-        li:nth-child(even) {
-            background-color: #eee;
-        }
-        a.delete:after {
+        li a.delete::after {
             content: "delete";
         }
-        a {
+        li:first-child a {
             float: right;
             padding-left: 10px;
-        }
-        a.left {
-            float: left;
         }
     </style>
 </head>
