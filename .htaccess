@@ -9,10 +9,6 @@ RewriteRule ^api/del$ php/del.php [L]
 
 RewriteRule ^register php/register.php [L]
 
-RewriteCond %{HTTPS} off
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L]
-
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([a-z0-9]+)/([a-z0-9]+)\.([a-z0-9]+)$ php/get.php?f=$2&x=$3&k=$1 [L]
 
