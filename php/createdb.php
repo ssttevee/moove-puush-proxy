@@ -18,6 +18,14 @@ try {
 	* Create tables                       *
 	**************************************/
 
+	// Create table users
+	$file_db->exec("CREATE TABLE IF NOT EXISTS users (
+	              id INTEGER PRIMARY KEY,
+	              email TEXT,
+	              password TEXT,
+	              apikey TEXT,
+	              bytesused UNSIGNED BIG INT)");
+
 	// Create table files
 	$file_db->exec("CREATE TABLE IF NOT EXISTS files (
 	            id INTEGER PRIMARY KEY,
@@ -25,16 +33,9 @@ try {
 	            ext TEXT,
 	            size INTEGER,
 	            key INTEGER,
-	            owner INTEGER,
+	            owner INTEGER REFERENCES users(id),
 	            time INTEGER,
 	            hits INTEGER)");
-
-	// Create table users
-	$file_db->exec("CREATE TABLE IF NOT EXISTS users (
-	              id INTEGER PRIMARY KEY,
-	              email TEXT,
-	              password TEXT,
-	              apikey TEXT)");
 
 	// Create table invites
 	$file_db->exec("CREATE TABLE IF NOT EXISTS invites (
