@@ -1,6 +1,8 @@
 Options +FollowSymlinks
 RewriteEngine On
 
+RewriteRule ^(storage/|cache/|lib/) - [F,L,NC]
+
 RewriteRule ^api/up$ php/up.php [L]
 RewriteRule ^api/auth$ php/auth.php [L]
 RewriteRule ^api/hist$ php/hist.php [L]
