@@ -9,8 +9,9 @@ This is my rendition of a puush server for my own use and education.  Reverse en
 ### Server
 1. Clone to web server root.
 2. Add create a new virtual host and set it's server alias to `puush.me`
-3. Visit `setup.php` to quickly setup everything
-4. Delete `setup.php` so people can't exploit it
+3. Modify `config.php`
+4. Visit `setup.php` to quickly setup everything
+5. Delete `setup.php` so people can't exploit it
 
 ### Client
 1. Logout of Puush client
@@ -25,6 +26,7 @@ This is my rendition of a puush server for my own use and education.  Reverse en
 # Notes
 * Requires PDO SQLITE module for data persistence
 * Requires MCRYPT module for file encryption
+* This README assumes you use apache
 * Users register at http://example.com/register
 * First user is the administrator
 * Administrator generates invite codes by sign "reregistering" with invite code as "generate"
