@@ -42,7 +42,7 @@ switch($step) {
 		// step 0: intro, check requirements, permissions, db existence
 		echo "<h1>Check Requirements and Permissions</h1>";
 		echo "Checking for pdo_sqlite... " . formatBoolean(extension_loaded("pdo_sqlite")) . "\n";
-		echo "Checking for mbstring... " . formatBoolean(extension_loaded("mbstring")) . "\n";
+		echo "Checking for mcrypt... " . formatBoolean(extension_loaded("mcrypt")) . "\n";
 		echo "Checking if DIR_STORAGE exists... " . formatBoolean(file_exists(DIR_STORAGE) && is_dir(DIR_STORAGE)) . "\n";
 		echo "Checking if DIR_STORAGE is writable... " . formatBoolean(file_exists(DIR_STORAGE) && is_dir(DIR_STORAGE)) . "\n";
 		echo "Checking if DIR_THUMB_CACHE exists... " . formatBoolean(file_exists(DIR_THUMB_CACHE) && is_dir(DIR_THUMB_CACHE)) . "\n";
