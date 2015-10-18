@@ -9,9 +9,9 @@
 class Moove {
     public $pdo;
 
-    function __construct($data_source_name) {
+    function __construct($sqlite_db_file) {
         /** Connect to SQLite database **/
-        $this->pdo = new PDO($data_source_name);
+        $this->pdo = new PDO("sqlite:" . $sqlite_db_file);
     }
 
     function getUserIdByApiKey($api_key) {
